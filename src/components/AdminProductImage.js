@@ -18,7 +18,7 @@ const AdminProductImage = ({ imageUrl, alt }) => {
     // Create a complete URL for the image
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
-      : `https://dreamhousebackend-vvxx.onrender.com${imageUrl}`
+      : `https://hostdreambackend.onrender.com${imageUrl}`
 
     setImageSrc(fullImageUrl)
 
