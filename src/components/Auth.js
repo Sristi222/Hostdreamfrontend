@@ -18,7 +18,7 @@ function Auth({ setUser }) {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post("https://dreamhousebackend-vvxx.onrender.com/api/login", {
+      const res = await axios.post("https://hostdreambackend.onrender.com/api/login", {
         email: formData.email,
         password: formData.password,
       });
