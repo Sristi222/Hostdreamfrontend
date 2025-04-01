@@ -1,0 +1,455 @@
+/* Footer.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap");
+
+.footer {
+  background-color: #f8f9fa; /* Light gray background */
+  color: #333333;
+  padding: 4rem 2rem 0; /* Removed bottom padding */
+  font-family: "Poppins", sans-serif;
+  width: 100%; /* Ensure full width */
+  margin: 0; /* Remove any margin */
+  box-sizing: border-box; /* Include padding in width calculation */
+  position: relative; /* Changed from absolute to relative */
+  z-index: 0; /* Lower z-index than content */
+  clear: both; /* Ensure it clears any floated elements */
+  margin-top: 150px; /* Add top margin to move footer down */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%; /* Ensure full width */
+  position: relative; /* Add position relative */
+  z-index: 1; /* Ensure content is visible */
+}
+
+.footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  width: 100%; /* Ensure full width */
+  gap: 1.5rem; /* Add consistent gap between sections */
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 2rem;
+  padding-right: 2rem;
+  padding-left: 0.5rem; /* Add left padding for most sections */
+}
+
+/* Special adjustment for Contact Us section - move further left */
+.footer-section:nth-child(3) {
+  padding-left: 0; /* Remove left padding */
+  margin-right: 2rem; /* Increase right margin to shift more to the left */
+  margin-left: -1rem; /* Add negative left margin to pull it more to the left */
+  position: relative; /* Add position relative */
+  left: -10px; /* Move left by 10px */
+}
+
+.footer-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* About Us */
+.about-us p {
+  color: #666666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Logo Section */
+.footer-logo-link {
+  display: block;
+  margin-bottom: 1.5rem;
+  position: relative; /* Add position relative */
+  z-index: 2; /* Higher z-index to ensure visibility */
+}
+
+.footer-logo-image {
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin-top: -20px;
+}
+
+.brand-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666666;
+  margin-bottom: 1.5rem;
+  margin-top: -30px;
+}
+
+/* Facebook Connect Button */
+.facebook-connect {
+  margin-top: 1.5rem;
+}
+
+.facebook-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ff3333;
+  color: white;
+  padding: 0.45rem 0.8rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 51, 51, 0.2);
+  max-width: fit-content;
+}
+
+.facebook-button:hover {
+  background: #e62e2e;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 3px 6px rgba(255, 51, 51, 0.3);
+}
+
+.facebook-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Section Headings */
+.footer-heading {
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2rem;
+  height: 2px;
+  background-color: #ff3333;
+}
+
+/* Navigation Links */
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-nav a {
+  color: #666666;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: #ff3333;
+}
+
+/* Contact Details */
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; /* Consistent spacing between contact items */
+  font-style: normal;
+  margin-bottom: 1rem;
+}
+
+/* Ensure proper alignment of contact details */
+.contact-details p,
+.contact-details a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #666666;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-details svg {
+  color: #ff3333;
+  flex-shrink: 0;
+}
+
+.contact-details a:hover {
+  color: #ff3333;
+}
+
+/* Quick Links */
+.quick-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.quick-links li {
+  margin-bottom: 0.75rem;
+}
+
+.quick-links a {
+  color: #666666;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.quick-links a:hover {
+  color: #007bff;
+}
+
+/* Store Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* Newsletter */
+.newsletter p {
+  color: #666666;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.newsletter input[type="email"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.newsletter button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+  padding-bottom: 0; /* Remove bottom padding */
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666666;
+  width: 100%; /* Ensure full width */
+  margin-bottom: 0; /* Ensure no bottom margin */
+  position: relative; /* Add position relative */
+}
+
+.footer-bottom p {
+  margin: 0; /* Remove default paragraph margin */
+  padding: 0 0 1.5rem 0; /* Add padding to the paragraph instead */
+}
+
+.admin-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.admin-link:hover {
+  color: #ff3333;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .footer-content {
+    max-width: 960px;
+  }
+
+  .footer-section {
+    flex-basis: calc(50% - 2rem);
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-content {
+    max-width: 100%; /* Changed from fixed width to 100% */
+    padding: 0 2rem; /* Added horizontal padding */
+  }
+
+  .footer-section {
+    flex-basis: calc(50% - 1rem);
+    padding-right: 1rem;
+  }
+
+  .footer-logo-image {
+    max-width: 220px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 1.5rem 0; /* Removed bottom padding */
+  }
+
+  .footer-content {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem; /* Increase gap for mobile view */
+  }
+
+  .footer-section {
+    flex-basis: 100%;
+    padding-right: 0;
+    text-align: center;
+    width: 100%; /* Ensure full width */
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .footer-section,
+  .footer-section:nth-child(3) {
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .footer-logo-image {
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .facebook-connect {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Center align contact details */
+  .contact-details {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-details p,
+  .contact-details a {
+    justify-content: center;
+  }
+
+  .footer-heading {
+    text-align: center;
+  }
+
+  .footer-heading::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Center align footer nav */
+  .footer-nav ul {
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer {
+    padding: 2rem 1rem 0; /* Removed bottom padding */
+  }
+
+  .footer-logo-image {
+    max-width: 180px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-heading {
+    font-size: 1rem;
+  }
+
+  .footer-nav a,
+  .contact-details p,
+  .contact-details a,
+  .brand-description {
+    font-size: 0.9rem;
+  }
+
+  .facebook-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer-logo-image {
+    max-width: 160px;
+  }
+
+  .gallery-grid img {
+    height: 80px;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+  }
+
+  .facebook-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+

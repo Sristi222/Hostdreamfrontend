@@ -1,0 +1,75 @@
+/* Reset browser defaults */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* Main App container */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative; /* Add position relative */
+}
+
+/* Main content area */
+.App-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Add position relative */
+  z-index: 1; /* Higher z-index than footer */
+}
+
+/* Footer specific fixes */
+.footer {
+  margin-top: auto; /* Push footer to the bottom */
+  padding: 4rem 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  clear: both; /* Ensure it clears any floated elements */
+  position: relative;
+}
+
+.footer-bottom {
+  padding-top: 1.5rem;
+  padding-bottom: 0; /* Remove bottom padding */
+  margin-bottom: 0;
+}
+
+.footer-bottom p {
+  margin: 0;
+  padding: 0 0 1.5rem 0; /* Add padding to the paragraph instead */
+}
+
+/* Color Palette Page specific styles */
+.color-palette-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Add a footer spacer to create clear separation */
+.footer-spacer {
+  height: 150px; /* Increased from 80px to 150px */
+  width: 100%;
+  clear: both;
+}
+

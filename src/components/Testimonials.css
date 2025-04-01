@@ -1,0 +1,430 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.testimonials {
+  padding: 80px 0;
+  background: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+/* Add this to your existing CSS if needed */
+.clientAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+  font-family: "Inter", serif;
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.testimonialsCarousel {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 20px; /* Increased top padding to accommodate the avatar */
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.testimonialCard {
+  flex: 0 0 calc(33.33% - 20px);
+  margin: 0 10px;
+  padding: 40px 20px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  transform: scale(0.95);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px; /* Changed from fixed height to min-height */
+  height: auto; /* Allow height to grow */
+}
+
+.testimonialCard.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.clientAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: -40px; /* Half outside the card */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.testimonialContent {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.rating {
+  color: #ffd700;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.testimonialQuote {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-style: italic;
+  line-height: 1.6;
+  flex-grow: 1;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.testimonialQuote.expanded {
+  max-height: none;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+.testimonialQuote blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+.readMoreBtn {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 0;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.readMoreBtn:hover {
+  color: #2980b9;
+}
+
+.readMoreBtn:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+.clientInfo {
+  margin-top: auto;
+}
+
+.clientName {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+  color: #333;
+}
+
+.clientType {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.beforeAfter {
+  margin-top: 15px;
+  height: 180px; /* Fixed height for the before/after slider */
+}
+
+.imgCompContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.imgCompBefore,
+.imgCompAfter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.imgCompBefore {
+  z-index: 2;
+  width: 100%; /* Ensure full width */
+}
+
+.imgCompAfter {
+  z-index: 1;
+}
+
+.imgCompBefore img,
+.imgCompAfter img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute; /* Position absolutely */
+  top: 0;
+  left: 0;
+}
+
+.imgCompSlider {
+  position: absolute;
+  z-index: 3;
+  width: 4px;
+  height: 100%;
+  background: white;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  touch-action: none; /* Prevent default touch actions */
+}
+
+.sliderLine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: white;
+  transform: translateX(-50%);
+}
+
+.sliderHandle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sliderHandle svg {
+  color: #333;
+}
+
+.imgLabel {
+  position: absolute;
+  top: 10px;
+  padding: 3px 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+.imgLabel.before {
+  left: 10px;
+}
+
+.imgLabel.after {
+  right: 10px;
+}
+
+.carouselControls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.carouselButton {
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.carouselButton:hover,
+.carouselButton:focus {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.carouselButton:active {
+  transform: translateY(0);
+}
+
+.slideInstructions {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+@media (max-width: 1024px) {
+  .testimonialCard {
+    flex: 0 0 calc(50% - 20px);
+    height: 520px; /* Slightly taller for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Keep existing styles */
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+  }
+
+  .testimonialsCarousel {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: 60px 0 20px; /* Increased top padding to accommodate the avatar */
+  }
+
+  .carouselTrack {
+    display: flex;
+    transition: none;
+    width: 100%;
+  }
+
+  .testimonialCard {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    opacity: 1;
+    transform: scale(1);
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    margin: 40px 5px 0; /* Added top margin to push content down */
+    padding: 40px 15px 15px; /* Increased top padding */
+  }
+
+  .testimonialQuote {
+    font-size: 0.9rem;
+    max-height: none;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+
+  .beforeAfter {
+    height: 160px; /* Slightly smaller height for mobile */
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  .clientAvatar {
+    width: 70px;
+    height: 70px;
+    top: -35px;
+  }
+
+  .testimonialContent {
+    margin-top: 10px; /* Reduced top margin */
+  }
+
+  .rating {
+    margin-bottom: 8px;
+  }
+
+  .testimonialQuote {
+    margin-bottom: 12px;
+  }
+  .readMoreBtn {
+    font-size: 0.75rem;
+  }
+  
+  .sliderHandle {
+    width: 40px; /* Slightly larger handle for touch devices */
+    height: 40px;
+  }
+  
+  .imgCompSlider {
+    width: 6px; /* Slightly thicker slider line for better visibility */
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .testimonialQuote {
+    font-size: 0.8rem;
+  }
+
+  .beforeAfter {
+    height: 140px; /* Even smaller height for very small screens */
+  }
+
+  .testimonialsCarousel {
+    padding: 50px 0 20px; /* Slightly reduced top padding for very small screens */
+  }
+
+  .testimonialCard {
+    margin: 35px 5px 0; /* Slightly reduced top margin for very small screens */
+    padding: 35px 15px 15px; /* Slightly reduced top padding for very small screens */
+  }
+
+  .clientAvatar {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+  }
+}
+

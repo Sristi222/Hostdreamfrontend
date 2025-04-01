@@ -1,0 +1,89 @@
+/* Compact Admin Login Styles */
+.auth-container {
+  max-width: 300px;
+  width: 90%;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.auth-input:focus {
+  border-color: #007bff;
+}
+
+.auth-button {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-button:hover {
+  background-color: #0056b3;
+}
+
+.auth-toggle {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #007bff;
+  cursor: pointer;
+  text-align: center;
+}
+
+.auth-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 320px) {
+  .auth-container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .auth-title {
+    font-size: 18px;
+  }
+
+  .auth-input,
+  .auth-button {
+    font-size: 13px;
+  }
+
+  .auth-toggle,
+  .auth-error {
+    font-size: 11px;
+  }
+}
