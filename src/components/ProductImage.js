@@ -20,7 +20,7 @@ const ProductImage = ({ product, alt, className = "", onLoad, onError }) => {
     // Cloudinary URLs start with http/https
     const fullImageUrl = product.imageUrl.startsWith("http")
       ? product.imageUrl
-      : `https://dreamhousebackend-vvxx.onrender.com${product.imageUrl}`
+      : `https://hostdreambackend.onrender.com${product.imageUrl}`
 
     setImageSrc(fullImageUrl)
 
