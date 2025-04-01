@@ -18,7 +18,7 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const response = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products?limit=6")
+        const response = await axios.get("https://hostdreambackend.onrender.com/api/products?limit=6")
         const productsData = response.data || []
         setProducts(productsData)
       } catch (error) {
