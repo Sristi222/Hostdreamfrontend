@@ -13,7 +13,7 @@ export const preloadProductImages = (products) => {
         // Handle both relative and absolute URLs
         const fullImageUrl = product.imageUrl.startsWith("http")
           ? product.imageUrl
-          : `https://dreamhousebackend-vvxx.onrender.com${product.imageUrl}`
+          : `https://hostdreambackend.onrender.com${product.imageUrl}`
 
         img.src = fullImageUrl
       }
