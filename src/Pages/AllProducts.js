@@ -104,7 +104,7 @@ const AllProducts = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const response = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products")
+        const response = await axios.get("https://hostdreambackend.onrender.com/api/products")
         const productsData = response.data || []
         setProducts(productsData)
 
