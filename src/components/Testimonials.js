@@ -24,7 +24,7 @@ const testimonials = [
     avatar:
       "https://static.vecteezy.com/system/resources/previews/010/967/316/non_2x/avatar-bearded-man-free-vector.jpg",
     quote:
-      "My husband was out of town, so I had to take care of painting our new home on my own. I was worried at first, but thankfully, I found Dream Paints. They took care of everything so well, super professional! The final look turned out amazing. So happy with it!",
+      "My wife was out of town, so I had to take care of painting our new home on my own. I was worried at first, but thankfully, I found Dream Paints. They took care of everything so well, super professional! The final look turned out amazing. So happy with it!",
     beforeImage: img,
     afterImage: imgs,
   },
