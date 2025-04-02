@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Play, Pause } from "lucide-react"
-import { Link } from "react-router-dom" // Import Link instead of useNavigate
+import { Link } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import "./Projects.css"
@@ -33,7 +33,7 @@ const projectsData = [
       "Complete restoration and painting of the historic Durbar High School building, preserving its architectural heritage while providing modern protection.",
     location: "Kathmandu, Nepal",
     images: [durbar2, durbar1, durbar3],
-    videoUrl: durbar, // Local video file path
+    videoUrl: durbar,
     videoThumbnail: school,
   },
   {
@@ -43,7 +43,7 @@ const projectsData = [
       "Detailed painting and restoration of a traditional Buddhist Gumba, using authentic techniques and materials to honor its cultural significance.",
     location: "Swayambhu, Nepal",
     images: [Gumba1, Gumba2],
-    videoUrl: Gumba, // Local video file path
+    videoUrl: Gumba,
     videoThumbnail: Gumba3,
   },
   {
@@ -53,7 +53,7 @@ const projectsData = [
       "Restoration of a traditional Newari temple with authentic materials and techniques, preserving cultural heritage while enhancing durability.",
     location: "Bhaktapur, Nepal",
     images: [Vihar, Vihar2],
-    videoUrl: Viharv, // Local video file path
+    videoUrl: Viharv,
     videoThumbnail: Vihart,
   },
   {
@@ -62,9 +62,8 @@ const projectsData = [
     description:
       "Complete interior and exterior renovation of a residential property, transforming it with modern colors and finishes while improving durability.",
     location: "Lalitpur, Nepal",
-
     images: [after7, after4, imgs],
-    videoUrl: project, // Local video file path
+    videoUrl: project,
     videoThumbnail: thumbnail,
   },
 ]
@@ -110,13 +109,17 @@ const Projects = () => {
 
   const nextImage = () => {
     if (selectedProject) {
-      setCurrentImageIndex((prevIndex) => (prevIndex === selectedProject.images.length - 1 ? 0 : prevIndex + 1))
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === selectedProject.images.length - 1 ? 0 : prevIndex + 1
+      )
     }
   }
 
   const prevImage = () => {
     if (selectedProject) {
-      setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? selectedProject.images.length - 1 : prevIndex - 1))
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === 0 ? selectedProject.images.length - 1 : prevIndex - 1
+      )
     }
   }
 
@@ -138,7 +141,10 @@ const Projects = () => {
       <div className="projects-hero">
         <div className="projects-hero-content">
           <h1>Our Projects</h1>
-          <p>Discover our portfolio of painting projects across residential, commercial, and cultural spaces</p>
+          <p>
+            Discover our portfolio of painting projects across residential,
+            commercial, and cultural spaces
+          </p>
         </div>
       </div>
 
@@ -150,17 +156,23 @@ const Projects = () => {
               <div className="project-info">
                 <p className="project-description">{project.description}</p>
                 <div className="project-meta">
-                  <span className="project-location">Location: {project.location}</span>
+                  <span className="project-location">
+                    Location: {project.location}
+                  </span>
                 </div>
               </div>
 
               <div className="project-media">
                 <div className="project-images">
                   {project.images.map((image, index) => (
-                    <div key={index} className="project-image-container" onClick={() => openModal(project)}>
+                    <div
+                      key={index}
+                      className="project-image-container"
+                      onClick={() => openModal(project)}
+                    >
                       <img
                         src={image || "/placeholder.svg"}
-                        alt={${project.title} - Image ${index + 1}}
+                        alt={`${project.title} - Image ${index + 1}`}
                         className="project-image"
                       />
                       <div className="image-overlay">
@@ -170,9 +182,15 @@ const Projects = () => {
                   ))}
                 </div>
 
-                <div className="project-video-container" onClick={() => openModal(project, true)}>
+                <div
+                  className="project-video-container"
+                  onClick={() => openModal(project, true)}
+                >
                   <div className="video-thumbnail">
-                    <img src={project.videoThumbnail || "/placeholder.svg"} alt={${project.title} video thumbnail} />
+                    <img
+                      src={project.videoThumbnail || "/placeholder.svg"}
+                      alt={`${project.title} video thumbnail`}
+                    />
                     <div className="video-play-button">
                       <Play size={40} />
                     </div>
@@ -185,7 +203,11 @@ const Projects = () => {
       </div>
 
       {selectedProject && (
-        <div className={project-modals ${isModalVisible ? "show" : ""}} onClick={closeModal} ref={modalRef}>
+        <div
+          className={`project-modals ${isModalVisible ? "show" : ""}`}
+          onClick={closeModal}
+          ref={modalRef}
+        >
           <div className="modals-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-modals" onClick={closeModal}>
               &times;
@@ -195,7 +217,10 @@ const Projects = () => {
               {!isVideoPlaying ? (
                 <>
                   <img
-                    src={selectedProject.images[currentImageIndex] || "/placeholder.svg"}
+                    src={
+                      selectedProject.images[currentImageIndex] ||
+                      "/placeholder.svg"
+                    }
                     alt={selectedProject.title}
                     className="modals-image"
                   />
@@ -249,13 +274,16 @@ const Projects = () => {
       <div className="cta-section">
         <div className="cta-content">
           <h2>Ready to Transform Your Space?</h2>
-          <p>Contact us today for a free consultation and quote for your painting project</p>
-          {/* Use the correct ID that matches your ContactUs component */}
+          <p>
+            Contact us today for a free consultation and quote for your painting
+            project
+          </p>
           <Link to="/#contact" className="cta-button">
             Get in Touch
           </Link>
         </div>
       </div>
+
       <Footer />
     </div>
   )
