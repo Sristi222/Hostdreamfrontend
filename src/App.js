@@ -1,6 +1,6 @@
 "use client"
 
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { jwtDecode } from "jwt-decode"
 import axios from "axios"
@@ -46,6 +46,29 @@ const subCategories = {
   "putty-primers": ["wall-putty", "acrylic-putty", "cement-putty", "oil-primer", "water-primer"],
 }
 
+// Create a ScrollToHash component to handle hash-based scrolling
+function ScrollToHash() {
+  const location = useLocation()
+
+  useEffect(() => {
+    // If we have a hash in the URL
+    if (location.hash) {
+      // Get the element with the ID that matches the hash
+      const elementId = location.hash.substring(1)
+      const element = document.getElementById(elementId)
+
+      if (element) {
+        // Wait a bit for the page to fully render
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" })
+        }, 500)
+      }
+    }
+  }, [location])
+
+  return null
+}
+
 function App() {
   const [user, setUser] = useState(null)
   const [isPreloading, setIsPreloading] = useState(true)
@@ -86,8 +109,33 @@ function App() {
     initializeImagePreloader()
   }, [])
 
+  // Add this new effect to handle scrolling to contact section
+  useEffect(() => {
+    // Check if we need to scroll to contact section
+    const shouldScrollToContact = sessionStorage.getItem("scrollToContact") === "true"
+
+    if (shouldScrollToContact) {
+      // Clear the flag
+      sessionStorage.removeItem("scrollToContact")
+
+      // Wait for components to render
+      setTimeout(() => {
+        // Find the ContactUs component
+        const contactSection =
+          document.querySelector(".contact-us-section") ||
+          document.getElementById("contact-us") ||
+          document.getElementById("contact")
+
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: "smooth" })
+        }
+      }, 500) // Delay to ensure components are rendered
+    }
+  }, [])
+
   return (
     <Router>
+      <ScrollToHash /> {/* Add this component to handle hash-based scrolling */}
       <div className="App">
         <Routes>
           {/* Home Page with Full Sections */}
@@ -136,4 +184,3 @@ function App() {
 }
 
 export default App
-
