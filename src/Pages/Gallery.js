@@ -29,6 +29,16 @@ import bedroom from "../img/bedroom.jpg"
 import bedroom1 from "../img/bedroom1.jpg"
 import bedroom2 from "../img/bedroom2.jpg"
 import bedroom3 from "../img/bedroom3.jpg"
+import ext from "../img/house 4.jpg"
+import house from "../img/house 1.jpg"
+import durbar from "../img/Durbar2.jpg"
+import Gumba from "../img/Gumba1.jpg"
+import lasthome from "../img/lasthome.jpg"
+import hihome from "../img/After2.jpg"
+import after7 from "../img/After.png"
+import imgs from "../img/After5.jpg"
+
+
 
 const galleryData = [
   {
@@ -61,6 +71,11 @@ const galleryData = [
         src: gallery,
         alt: "Eclectic living room with mixed patterns",
       },
+
+      {
+        src: durbar,
+        alt: "durbar high school",
+      },
       {
         src: paint,
         alt: "Eclectic living room with mixed patterns",
@@ -76,6 +91,12 @@ const galleryData = [
       },
 
       {
+        src: Gumba,
+        alt: "Gumba",
+      },
+
+
+      {
         src: finalhome,
         alt: "Eclectic living room with mixed patterns",
       },
@@ -84,6 +105,36 @@ const galleryData = [
         src: final,
         alt: "Eclectic living room with mixed patterns",
       },
+      {
+        src: ext,
+        alt: "Eclectic living room with mixed patterns",
+      },
+
+      {
+        src: house,
+        alt: "Eclectic living room with mixed patterns",
+      },
+
+      {
+        src: lasthome,
+        alt: "Eclectic living room with mixed patterns",
+      },
+
+      {
+        src: hihome,
+        alt: "house",
+      },
+
+      {
+        src: after7,
+        alt: "house",
+      },
+
+      {
+        src: imgs,
+        alt: "house",
+      },
+      
     ],
   },
   {
@@ -121,6 +172,8 @@ const galleryData = [
         src: ceiling5,
         alt: "Bright kitchen with yellow accents",
       },
+
+      
     ],
   },
   {
@@ -239,4 +292,3 @@ const Gallery = () => {
 }
 
 export default Gallery
-
