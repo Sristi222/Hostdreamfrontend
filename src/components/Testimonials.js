@@ -1,12 +1,10 @@
 "use client"
 
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useState, useCallback, useEffect, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import "./Testimonials.css"
 import img from "../img/Before2.jpg"
 import imgs from "../img/After2.jpg"
-import before from "../img/Before3.jpg"
-import after from "../img/After3.jpg"
 import before4 from "../img/Before4.jpg"
 import after4 from "../img/After4.jpg"
 import before5 from "../img/Before5.jpg"
@@ -17,28 +15,19 @@ import house from "../img/housebefore.jpg"
 import color from "../img/houseafter.jpg"
 
 const testimonials = [
+
   {
-    id: 1,
-    name: "Shyam Maharjan",
-    type: "Residential Client",
+    id: 5,
+    name: "Sonu maya Lamichhane",
+    type: "Home Owner",
     avatar:
-      "https://static.vecteezy.com/system/resources/previews/010/967/316/non_2x/avatar-bearded-man-free-vector.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDH94qP1Hth7yBoc5ldevLA2vRpXw4326z_JcwN1NeWJInqKyixRxPUs0EfXlB_DjTbf8&usqp=CAU",
     quote:
-      "My wife was out of town, so I had to take care of painting our new home on my own. I was worried at first, but thankfully, I found Dream Paints. They took care of everything so well, super professional! The final look turned out amazing. So happy with it!",
-    beforeImage: img,
-    afterImage: imgs,
+      "This store has everything! So many paints, good quality, and not expensive. Staff was super nice too. Will buy again!",
+    beforeImage: before6,
+    afterImage: after6,
   },
-  {
-    id: 2,
-    name: "Purushottam Khadka",
-    type: "Commercial Client",
-    avatar:
-      "https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-    quote:
-      "Loved their service. Everything was handled perfectly till the end. I didn't have to worry about a thing. Definitely recommend!",
-    beforeImage: before,
-    afterImage: after,
-  },
+  
   {
     id: 3,
     name: "Meena Nepali",
@@ -61,17 +50,7 @@ const testimonials = [
     beforeImage: before5,
     afterImage: after5,
   },
-  {
-    id: 5,
-    name: "Sonu maya Lamichhane",
-    type: "Restaurant Owner",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDH94qP1Hth7yBoc5ldevLA2vRpXw4326z_JcwN1NeWJInqKyixRxPUs0EfXlB_DjTbf8&usqp=CAU",
-    quote:
-      "This store has everything! So many paints, good quality, and not expensive. Staff was super nice too. Will buy again!",
-    beforeImage: before6,
-    afterImage: after6,
-  },
+  
   {
     id: 6,
     name: "Rajendra Basnet",
@@ -79,13 +58,26 @@ const testimonials = [
     avatar:
       "https://static.vecteezy.com/system/resources/thumbnails/024/183/502/small_2x/male-avatar-portrait-of-a-young-man-with-a-beard-illustration-of-male-character-in-modern-color-style-vector.jpg",
     quote:
-      "I needed paint for my kitchen, and they had the perfect color. The paint was smooth and easy to use. Happy with how it turned out!",
+      "I needed paint for my new house and they had the perfect color. The paint was smooth and easy to use. Happy with how it turned out!",
     beforeImage: house,
     afterImage: color,
   },
+
+  {
+    id: 1,
+    name: "Shyam Maharjan",
+    type: "Residential Client",
+    avatar:
+      "https://static.vecteezy.com/system/resources/previews/010/967/316/non_2x/avatar-bearded-man-free-vector.jpg",
+    quote:
+      "My wife was out of town, so I had to take care of painting our new home on my own. I was worried at first, but thankfully, I found Dream Paints. They took care of everything so well, super professional! The final look turned out amazing. So happy with it!",
+    beforeImage: img,
+    afterImage: imgs,
+  },
+
 ]
 
-const TruncatedQuote = ({ quote, maxLength = 150 }) => {
+const TruncatedQuote = ({ quote, maxLength = 120 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   if (quote.length <= maxLength) {
@@ -104,7 +96,10 @@ const TruncatedQuote = ({ quote, maxLength = 150 }) => {
 
 const BeforeAfterSlider = ({ beforeImage, afterImage }) => {
   const [sliderPosition, setSliderPosition] = useState(50)
-  const containerRef = React.useRef(null)
+  const [imagesLoaded, setImagesLoaded] = useState({ before: false, after: false })
+  const containerRef = useRef(null)
+  const beforeImgRef = useRef(null)
+  const afterImgRef = useRef(null)
 
   const handleMove = useCallback((clientX) => {
     if (containerRef.current) {
@@ -157,6 +152,14 @@ const BeforeAfterSlider = ({ beforeImage, afterImage }) => {
     document.addEventListener("touchend", handleTouchEnd)
   }
 
+  // Handle image load events
+  const handleImageLoad = (type) => {
+    setImagesLoaded((prev) => ({
+      ...prev,
+      [type]: true,
+    }))
+  }
+
   React.useEffect(() => {
     return () => {
       document.removeEventListener("mousemove", handleMouseMove)
@@ -168,13 +171,38 @@ const BeforeAfterSlider = ({ beforeImage, afterImage }) => {
 
   return (
     <div className="beforeAfter" ref={containerRef}>
+      {(!imagesLoaded.before || !imagesLoaded.after) && (
+        <div className="image-loading-spinner">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="imgCompContainer">
         <div className="imgCompAfter">
-          <img src={afterImage || "/placeholder.svg"} alt="After" />
+          <img
+            ref={afterImgRef}
+            src={afterImage || "/placeholder.svg"}
+            alt="After"
+            onLoad={() => handleImageLoad("after")}
+            onError={(e) => {
+              console.error("Failed to load after image")
+              e.target.src = "/placeholder.svg"
+              setImagesLoaded((prev) => ({ ...prev, after: true }))
+            }}
+          />
           <div className="imgLabel after">After</div>
         </div>
         <div className="imgCompBefore" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
-          <img src={beforeImage || "/placeholder.svg"} alt="Before" />
+          <img
+            ref={beforeImgRef}
+            src={beforeImage || "/placeholder.svg"}
+            alt="Before"
+            onLoad={() => handleImageLoad("before")}
+            onError={(e) => {
+              console.error("Failed to load before image")
+              e.target.src = "/placeholder.svg"
+              setImagesLoaded((prev) => ({ ...prev, before: true }))
+            }}
+          />
           <div className="imgLabel before">Before</div>
         </div>
         <div
@@ -185,8 +213,8 @@ const BeforeAfterSlider = ({ beforeImage, afterImage }) => {
         >
           <div className="sliderLine"></div>
           <div className="sliderHandle">
-            <ChevronLeft size={20} />
-            <ChevronRight size={20} />
+            <ChevronLeft size={16} />
+            <ChevronRight size={16} />
           </div>
         </div>
       </div>
@@ -198,7 +226,9 @@ const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [cardsPerView, setCardsPerView] = useState(3)
   const [isResponsive, setIsResponsive] = useState(false)
+  const carouselRef = useRef(null)
 
+  // Responsive handling
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -218,13 +248,38 @@ const Testimonials = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  // Reset to first card when cards per view changes
+  useEffect(() => {
+    setActiveIndex(0)
+  }, [cardsPerView])
+
+  // Hard-coded maximum index to prevent sliding too far
+  const maxIndex = Math.max(0, testimonials.length - cardsPerView)
+
   const handlePrevClick = () => {
-    setActiveIndex((current) => (current === 0 ? testimonials.length - cardsPerView : current - 1))
+    setActiveIndex((current) => {
+      // If at the beginning, loop to the end
+      if (current <= 0) {
+        return maxIndex
+      }
+      // Otherwise, go back one
+      return Math.max(0, current - 1)
+    })
   }
 
   const handleNextClick = () => {
-    setActiveIndex((current) => (current === testimonials.length - cardsPerView ? 0 : current + 1))
+    setActiveIndex((current) => {
+      // If at or beyond the max index, loop to the beginning
+      if (current >= maxIndex) {
+        return 0
+      }
+      // Otherwise, go forward one but don't exceed max
+      return Math.min(maxIndex, current + 1)
+    })
   }
+
+  // Calculate card width as a percentage
+  const cardWidth = 100 / cardsPerView
 
   return (
     <section className="testimonials">
@@ -234,12 +289,19 @@ const Testimonials = () => {
 
         {isResponsive && <p className="slideInstructions">Swipe left or right to see more testimonials</p>}
 
-        <div className="testimonialsCarousel">
-          <div className="carouselTrack" style={{ transform: `translateX(-${activeIndex * (100 / cardsPerView)}%)` }}>
+        <div className="testimonialsCarousel" ref={carouselRef}>
+          <div
+            className="carouselTrack"
+            style={{
+              transform: `translateX(-${activeIndex * cardWidth}%)`,
+              width: `${cardWidth * testimonials.length}%`,
+            }}
+          >
             {testimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
                 className={`testimonialCard ${index >= activeIndex && index < activeIndex + cardsPerView ? "active" : ""}`}
+                style={{ width: `${100 / testimonials.length}%` }}
               >
                 <img src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} className="clientAvatar" />
                 <div className="testimonialContent">
