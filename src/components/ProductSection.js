@@ -51,7 +51,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }, 300)
   }
 
-  // Track image load status
   const handleImageLoad = (productId) => {
     setLoadedImages((prev) => ({
       ...prev,
@@ -59,7 +58,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }))
   }
 
-  // Track image error status
   const handleImageError = (productId) => {
     setLoadedImages((prev) => ({
       ...prev,
@@ -67,14 +65,12 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }))
   }
 
-  // Function to determine if a product is a bestseller (for demo)
   const isBestSeller = (productId) => {
-    // Use product ID to make determination consistent
     const seed = productId
       .toString()
       .split("")
       .reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    return seed % 3 === 0 // Roughly 1/3 of products will be bestsellers
+    return seed % 3 === 0
   }
 
   if (loading) {
@@ -126,12 +122,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
               </div>
 
               <div className="product-content">
-                <div className="price-section">
-                  <div className="price-wrapper">
-                    <span className="current-price">Rs. {product.price}</span>
-                  </div>
-                </div>
-
                 <div className="product-availability">
                   <svg
                     viewBox="0 0 24 24"
@@ -172,7 +162,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
             <ProductImage product={modalProduct} alt={modalProduct.name} className="modal-image" />
             <h2 className="modal-product-title">{modalProduct.name}</h2>
             <p className="modal-product-description">{modalProduct.description}</p>
-            <p className="modal-product-price">Rs. {modalProduct.price}</p>
             {modalProduct.sizes && modalProduct.sizes.length > 0 && (
               <div className="modal-product-sizes">
                 <p>
@@ -188,4 +177,3 @@ const ProductSection = ({ mainCategories, subCategories }) => {
 }
 
 export default ProductSection
-
