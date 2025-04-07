@@ -9,7 +9,6 @@ import "../components/ProductSection.css"
 import ProductImage from "../components/ProductImage"
 import { preloadProductImages } from "../utils/imageUtils"
 
-// Create a separate ProductCard component to use hooks properly
 const ProductCard = ({ product, openModal, onImageLoad, onImageError }) => {
   return (
     <div className="product-card">
@@ -26,12 +25,6 @@ const ProductCard = ({ product, openModal, onImageLoad, onImageError }) => {
         </button>
       </div>
       <div className="product-content">
-        <div className="price-section">
-          <div className="price-wrapper">
-            <span className="current-price">Rs. {product.price}</span>
-          </div>
-        </div>
-
         <div className="product-availability">
           <svg
             viewBox="0 0 24 24"
@@ -108,14 +101,11 @@ const AllProducts = () => {
         const productsData = response.data || []
         setProducts(productsData)
 
-        // Initialize image loaded state for each product
         const initialLoadState = {}
         productsData.forEach((product) => {
           initialLoadState[product._id] = false
         })
         setImagesLoaded(initialLoadState)
-
-        // Preload images in the background
         preloadProductImages(productsData)
       } catch (error) {
         console.error("❌ Error fetching products:", error)
@@ -141,7 +131,6 @@ const AllProducts = () => {
 
   const getFilteredProducts = () => {
     let filtered = [...products]
-
     if (searchTerm) {
       filtered = filtered.filter(
         (product) =>
@@ -157,7 +146,6 @@ const AllProducts = () => {
         filtered = filtered.filter((product) => product.subCategory === currentSubCategory)
       }
     }
-
     return filtered
   }
 
@@ -190,36 +178,25 @@ const AllProducts = () => {
     }, 300)
   }
 
-  // Handle image load success
   const handleImageLoad = (productId) => {
-    setImagesLoaded((prev) => ({
-      ...prev,
-      [productId]: true,
-    }))
+    setImagesLoaded((prev) => ({ ...prev, [productId]: true }))
   }
 
-  // Handle image load error
   const handleImageError = (productId) => {
-    setImagesLoaded((prev) => ({
-      ...prev,
-      [productId]: "error",
-    }))
+    setImagesLoaded((prev) => ({ ...prev, [productId]: "error" }))
   }
 
   const filteredProducts = getFilteredProducts()
 
-  // Add escape key handler for modal
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
         closeModal()
       }
     }
-
     if (isModalVisible) {
       document.addEventListener("keydown", handleEscape)
     }
-
     return () => {
       document.removeEventListener("keydown", handleEscape)
     }
@@ -230,13 +207,11 @@ const AllProducts = () => {
       <Navbar />
       <div className="container">
         <h1 className="section">All Products</h1>
-
         {searchTerm && (
           <p className="search-results-text">
             Showing results for: <strong>{searchTerm}</strong>
           </p>
         )}
-
         <div className="filter-options main-filter">
           {mainCategories.map((category) => (
             <button
@@ -248,7 +223,6 @@ const AllProducts = () => {
             </button>
           ))}
         </div>
-
         {currentMainCategory !== "all" && subCategories[currentMainCategory] && (
           <div className="filter-options sub-filter">
             <div className="sub-categories">
@@ -264,7 +238,6 @@ const AllProducts = () => {
             </div>
           </div>
         )}
-
         {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -289,7 +262,6 @@ const AllProducts = () => {
             )}
           </div>
         )}
-
         <div className="view-all-container">
           <a href="/" className="back-btn">
             Back to Home
@@ -306,7 +278,6 @@ const AllProducts = () => {
             <ProductImage product={modalProduct} alt={modalProduct.name} className="modal-image" />
             <h2 className="modal-product-title">{modalProduct.name}</h2>
             <p className="modal-product-description">{modalProduct.description}</p>
-            <p className="modal-product-price">Rs. {modalProduct.price}</p>
             {modalProduct.sizes && modalProduct.sizes.length > 0 && (
               <div className="modal-product-sizes">
                 <p>
@@ -318,11 +289,9 @@ const AllProducts = () => {
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   )
 }
 
 export default AllProducts
-
