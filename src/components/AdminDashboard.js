@@ -1,9 +1,10 @@
+// AdminDashboard.jsx
 "use client"
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users, DollarSign } from "lucide-react"
+import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users } from "lucide-react"
 import "./AdminDashboard.css"
 import AdminProductImage from "./AdminProductImage"
 
@@ -42,7 +43,6 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("dashboard")
   const [newProduct, setNewProduct] = useState({
     name: "",
-    price: "",
     category: "",
     subCategory: "",
     description: "",
@@ -78,14 +78,12 @@ const AdminDashboard = () => {
     const filtered = sorted.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
     setFilteredProducts(filtered)
 
-    // Calculate category stats
     const stats = {}
     mainCategories.forEach((category) => {
       stats[category.id] = products.filter((product) => product.category === category.id).length
     })
     setCategoryStats(stats)
 
-    // Calculate subcategory stats
     const subStats = {}
     products.forEach((product) => {
       if (product.subCategory) {
@@ -152,7 +150,6 @@ const AdminDashboard = () => {
 
       setNewProduct({
         name: "",
-        price: "",
         category: "",
         subCategory: "",
         description: "",
@@ -199,20 +196,6 @@ const AdminDashboard = () => {
     setSortConfig({ key, direction })
   }
 
-  const handleFeaturedToggle = async (id, currentFeatured) => {
-    try {
-      await axios.patch(
-        `https://hostdreambackend.onrender.com/api/products/${id}`,
-        { featured: !currentFeatured },
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      fetchProducts()
-    } catch (error) {
-      console.error("❌ Error updating featured status:", error)
-      alert("Failed to update featured status. Please try again.")
-    }
-  }
-
   return (
     <div className="admin-container">
       <div className="sidebar">
@@ -222,10 +205,7 @@ const AdminDashboard = () => {
             <BarChart2 size={20} />
             <span>Dashboard</span>
           </li>
-          <li
-            className={activeSection === "allProducts" ? "active" : ""}
-            onClick={() => setActiveSection("allProducts")}
-          >
+          <li className={activeSection === "allProducts" ? "active" : ""} onClick={() => setActiveSection("allProducts")}>
             <Package size={20} />
             <span>Products</span>
           </li>
@@ -245,8 +225,8 @@ const AdminDashboard = () => {
             {activeSection === "dashboard"
               ? "Dashboard"
               : activeSection === "allProducts"
-                ? "All Products"
-                : "Add Product"}
+              ? "All Products"
+              : "Add Product"}
           </h1>
         </header>
 
@@ -271,15 +251,6 @@ const AdminDashboard = () => {
                   <p>{Object.keys(categoryStats).length}</p>
                 </div>
               </div>
-              <div className="dashboard-card">
-                <div className="card-icon">
-                  <DollarSign size={24} />
-                </div>
-                <div className="card-info">
-                  <h3>Total Value</h3>
-                  <p>Rs. {products.reduce((sum, product) => sum + Number(product.price), 0).toLocaleString()}</p>
-                </div>
-              </div>
             </div>
             <div className="category-breakdown">
               <h3>Category Breakdown</h3>
@@ -298,7 +269,6 @@ const AdminDashboard = () => {
                 ))}
               </ul>
             </div>
-
             <div className="subcategory-breakdown">
               <h3>Subcategory Breakdown</h3>
               <div className="subcategory-grid">
@@ -325,14 +295,6 @@ const AdminDashboard = () => {
                 value={editingProduct ? editingProduct.name : newProduct.name}
                 onChange={handleChange}
                 placeholder="Product Name"
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                value={editingProduct ? editingProduct.price : newProduct.price}
-                onChange={handleChange}
-                placeholder="Price"
                 required
               />
               <select
@@ -371,15 +333,12 @@ const AdminDashboard = () => {
                 required
               />
               <input type="file" name="image" accept="image/*" onChange={handleImageUpload} />
-
-              {/* Show current image if editing */}
               {editingProduct && editingProduct.imageUrl && (
                 <div className="current-image-preview">
                   <p>Current Image:</p>
                   <AdminProductImage imageUrl={editingProduct.imageUrl} alt={editingProduct.name} />
                 </div>
               )}
-
               <button type="submit" className="submit-btn">
                 {editingProduct ? "Update Product" : "Add Product"}
               </button>
@@ -408,24 +367,13 @@ const AdminDashboard = () => {
                 <thead>
                   <tr>
                     <th onClick={() => handleSort("name")}>
-                      Name{" "}
-                      {sortConfig.key === "name" &&
-                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Name {sortConfig.key === "name" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th onClick={() => handleSort("category")}>
-                      Category{" "}
-                      {sortConfig.key === "category" &&
-                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Category {sortConfig.key === "category" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th onClick={() => handleSort("subCategory")}>
-                      Subcategory{" "}
-                      {sortConfig.key === "subCategory" &&
-                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
-                    </th>
-                    <th onClick={() => handleSort("price")}>
-                      Price{" "}
-                      {sortConfig.key === "price" &&
-                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Subcategory {sortConfig.key === "subCategory" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th>Image</th>
                     <th>Action</th>
@@ -437,7 +385,6 @@ const AdminDashboard = () => {
                       <td>{product.name}</td>
                       <td>{product.category}</td>
                       <td>{product.subCategory}</td>
-                      <td>Rs. {product.price}</td>
                       <td className="product-image-cell">
                         <AdminProductImage imageUrl={product.imageUrl} alt={product.name} />
                       </td>
@@ -462,4 +409,3 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
-
