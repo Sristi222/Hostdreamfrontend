@@ -1,7 +1,3 @@
-
-
-
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 * {
@@ -19,26 +15,6 @@ body {
 .admin-container {
   display: flex;
   min-height: 100vh;
-  position: relative;
-}
-
-/* Menu Toggle Button for Mobile */
-.menu-toggle {
-  display: none;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1050;
-  background: #2c3e50;
-  color: white;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  align-items: center;
-  justify-content: center;
 }
 
 /* Sidebar Styles */
@@ -52,8 +28,7 @@ body {
   left: 0;
   top: 0;
   overflow-y: auto;
-  transition: all 0.3s ease;
-  z-index: 1040;
+  transition: transform 0.3s ease;
 }
 
 .sidebar h2 {
@@ -124,6 +99,22 @@ body {
   font-weight: 600;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info span {
+  margin-right: 10px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* Dashboard Overview Styles */
 .dashboard-cards {
   display: grid;
@@ -151,7 +142,6 @@ body {
   align-items: center;
   justify-content: center;
   margin-right: 15px;
-  flex-shrink: 0;
 }
 
 .card-info h3 {
@@ -188,26 +178,14 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  flex-wrap: wrap;
-}
-
-.category-breakdown li > span:first-child {
-  min-width: 100px;
-  margin-right: 10px;
-}
-
-.category-breakdown li > span:nth-child(2) {
-  margin-right: 10px;
-  font-weight: 500;
 }
 
 .progress-bar {
   flex-grow: 1;
-  min-width: 100px;
   height: 8px;
   background: #ecf0f1;
   border-radius: 4px;
-  margin: 0 10px;
+  margin: 0 15px;
   overflow: hidden;
 }
 
@@ -241,91 +219,83 @@ table th {
   background: #f9f9f9;
   font-weight: 600;
   color: #2c3e50;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-th.sortable {
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
-th.sortable:hover {
+table th:hover {
   background: #ecf0f1;
-}
-
-th.sortable span {
-  margin-right: 5px;
 }
 
 table tbody tr:hover {
   background: #f9f9f9;
 }
 
+.product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.action-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.edit-btn {
+  background: #3498db;
+  color: white;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  opacity: 0.8;
+}
+
 /* Form Styles */
 .add-product {
   background: white;
-  padding: 25px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.add-product h2 {
-  margin-bottom: 20px;
-  font-size: 22px;
-  color: #2c3e50;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #34495e;
 }
 
 .product-form input,
 .product-form select,
 .product-form textarea {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #dfe6e9;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ecf0f1;
   border-radius: 5px;
   font-size: 14px;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-form input:focus,
-.product-form select:focus,
-.product-form textarea:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-  outline: none;
-}
-
-.product-form input[type="file"] {
-  padding: 10px;
-  background: #f8f9fa;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   background: #2c3e50;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 10px;
+  transition: 0.3s;
 }
 
 .submit-btn:hover {
@@ -338,8 +308,6 @@ table tbody tr:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 15px;
 }
 
 .search-bar {
@@ -349,17 +317,14 @@ table tbody tr:hover {
   border-radius: 25px;
   padding: 5px 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  min-width: 250px;
-  flex-grow: 1;
-  max-width: 400px;
 }
 
 .search-bar input {
   border: none;
   outline: none;
-  padding: 8px 10px;
+  padding: 5px 10px;
   font-size: 14px;
-  width: 100%;
+  width: 200px;
 }
 
 .add-btn {
@@ -373,7 +338,6 @@ table tbody tr:hover {
   align-items: center;
   gap: 5px;
   transition: background-color 0.3s;
-  white-space: nowrap;
 }
 
 .add-btn:hover {
@@ -425,32 +389,6 @@ table tbody tr:hover {
   color: #7f8c8d;
 }
 
-/* Current image preview in edit form */
-.current-image-preview {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.current-image-preview p {
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-/* Product image cell in table */
-.product-image-cell {
-  padding: 5px;
-}
-
-/* "No products found" message */
-.no-results {
-  text-align: center;
-  padding: 20px;
-  color: #7f8c8d;
-  font-style: italic;
-}
-
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -458,12 +396,6 @@ table tbody tr:hover {
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
   }
 }
 
@@ -491,72 +423,120 @@ table tbody tr:hover {
   background: #555;
 }
 
+/* Add these styles to your existing AdminDashboard.css */
+
+/* Admin Product Image */
+.admin-image-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.admin-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.admin-product-img.loaded {
+  opacity: 1;
+}
+
+.admin-product-img.error {
+  opacity: 0.7;
+  filter: grayscale(100%);
+}
+
+.admin-image-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.admin-image-spinner .spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #ff3333;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* Current image preview in edit form */
+.current-image-preview {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-image-preview p {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.current-image-preview .admin-image-wrapper {
+  width: 100px;
+  height: 100px;
+}
+
+/* Product image cell in table */
+.product-image-cell {
+  padding: 5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
-    width: 220px;
+    width: 200px;
   }
-
+  
   .content {
-    margin-left: 220px;
-    padding: 15px;
+    margin-left: 200px;
   }
-
+  
   .dashboard-cards {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .subcategory-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-
-  .content-header h1 {
-    font-size: 24px;
-  }
-
-  /* Adjust table for medium screens */
-  .category-column,
-  .subcategory-column {
-    max-width: 120px;
   }
 }
 
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
-
   .admin-container {
     flex-direction: column;
   }
 
   .sidebar {
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    position: fixed;
-    left: -100%;
-    top: 0;
-    z-index: 1000;
-    padding: 60px 20px 20px;
-    transition: left 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .sidebar.open {
-    left: 0;
+    width: 100%;
+    height: auto;
+    position: static;
+    padding: 10px;
   }
 
   .content {
     margin-left: 0;
-    padding: 60px 15px 15px;
-    width: 100%;
-    transition: margin-left 0.3s ease;
-  }
-
-  .content.shifted {
-    margin-left: 0;
-    opacity: 0.7;
+    padding: 10px;
   }
 
   .dashboard-cards {
@@ -565,186 +545,50 @@ table tbody tr:hover {
 
   .products-header {
     flex-direction: column;
-    align-items: stretch;
+    gap: 10px;
   }
 
-  .search-bar {
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-
+  .search-bar,
   .add-btn {
     width: 100%;
-    justify-content: center;
   }
 
-  /* Make tables responsive on mobile */
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  tr {
-    margin-bottom: 20px;
-    border: 1px solid #ecf0f1;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
-    position: relative;
-    padding: 12px 15px;
-    text-align: right;
-  }
-
-  td:before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #2c3e50;
-    flex: 1;
-    text-align: left;
-    padding-right: 10px;
-  }
-
-  /* Special handling for image and action cells */
-  .product-image-cell {
-    justify-content: center;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-  }
-
-  .product-image-cell:before {
-    display: none;
+  table {
+    font-size: 14px;
   }
 
   .action-icons {
-    justify-content: center;
-    gap: 15px;
-    padding: 12px;
-  }
-
-  .action-icons:before {
-    display: none;
-  }
-
-  .action-icons button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-
-  .edit-btn {
-    color: #3498db;
-  }
-
-  .delete-btn {
-    color: #e74c3c;
-  }
-
-  /* Ensure the admin image wrapper is properly sized on mobile */
-  .admin-image-wrapper {
-    width: 80px;
-    height: 80px;
-  }
-
-  .image-column,
-  .subcategory-column,
-  .category-column {
-    display: none;
-  }
-
-  /* Category breakdown adjustments */
-  .category-breakdown li {
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px;
   }
-
-  .category-breakdown li > span:first-child {
-    margin-bottom: 5px;
-    font-weight: 600;
-  }
-
-  .progress-bar {
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  /* Form adjustments */
-  .product-form {
-    padding: 10px;
+  
+  .subcategory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 
 @media (max-width: 480px) {
-  /* Other styles remain the same */
-
-  td {
-    padding: 10px 15px;
-    font-size: 14px;
-  }
-
-  td:before {
-    font-size: 12px;
-  }
-
-  .action-icons button {
-    width: 36px;
-    height: 36px;
-  }
-
   .content-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-
-  .content {
-    padding: 60px 10px 10px;
+  
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
   }
-
+  
   .dashboard-card {
     flex-direction: column;
     text-align: center;
-    padding: 15px;
   }
-
+  
   .card-icon {
     margin-right: 0;
     margin-bottom: 10px;
   }
-
+  
   .subcategory-grid {
     grid-template-columns: 1fr;
-  }
-
-  .add-product {
-    padding: 15px;
-  }
-
-  .table-container {
-    margin-top: 15px;
   }
 }
