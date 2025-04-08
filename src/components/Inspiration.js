@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Inspiration.css"
-import gallery from "../img/gallery.jpg"
-import wow from "../img/beautiful.jpg"
+import gallery from "../img/compressed/compress/gallery.jpg"
+import wow from "../img/compressed/compress/beautiful.jpg"
 
 const InspirationCard = ({ image, roomLabel, title, description, onViewGallery }) => {
   const cardRef = useRef(null)
