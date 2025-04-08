@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react"
 import Navbar from "./Navbar"
 import "./Header.css"
-import heroImage from "../img/hero.jpg"
-import hero from "../img/hero1.jpg"
-import herosection from "../img/hero3.png"
+import heroImage from "../img/compressed/compress/hero.jpg"
+import hero from "../img/compressed/compress/hero1.jpg"
+import herosection from "../img/compressed/compress/hero3.png"
 
 const DreamPaints = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
