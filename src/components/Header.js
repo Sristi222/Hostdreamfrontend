@@ -5,7 +5,7 @@ import Navbar from "./Navbar"
 import "./Header.css"
 import heroImage from "../img/compressed/compress/hero.jpg"
 import hero from "../img/compressed/compress/hero1.jpg"
-import herosection from "../img/compressed/compress/besthero.png
+import herosection from "../img/compressed/compress/besthero.png"
 
 const DreamPaints = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
