@@ -1,10 +1,13 @@
-// AdminDashboard.jsx
+//admindashboard.js
+
+
+
 "use client"
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users } from "lucide-react"
+import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users, Menu, X } from "lucide-react"
 import "./AdminDashboard.css"
 import AdminProductImage from "./AdminProductImage"
 
@@ -47,6 +50,7 @@ const AdminDashboard = () => {
     subCategory: "",
     description: "",
     image: null,
+    price: "0", // Add default price
   })
   const [editingProduct, setEditingProduct] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
@@ -54,12 +58,23 @@ const AdminDashboard = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" })
   const [categoryStats, setCategoryStats] = useState({})
   const [subCategoryStats, setSubCategoryStats] = useState({})
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigate = useNavigate()
   const token = localStorage.getItem("token")
 
   useEffect(() => {
     fetchProducts()
+
+    // Close sidebar on window resize if screen gets larger
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setSidebarOpen(false)
+      }
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   useEffect(() => {
@@ -78,12 +93,14 @@ const AdminDashboard = () => {
     const filtered = sorted.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
     setFilteredProducts(filtered)
 
+    // Calculate category stats
     const stats = {}
     mainCategories.forEach((category) => {
       stats[category.id] = products.filter((product) => product.category === category.id).length
     })
     setCategoryStats(stats)
 
+    // Calculate subcategory stats
     const subStats = {}
     products.forEach((product) => {
       if (product.subCategory) {
@@ -95,7 +112,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("https://hostdreambackend.onrender.com/api/products")
+      const res = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products")
       setProducts(res.data)
     } catch (error) {
       console.error("❌ Error fetching products:", error)
@@ -131,19 +148,25 @@ const AdminDashboard = () => {
     const formData = new FormData()
     const productData = editingProduct || newProduct
 
+    // Ensure price is included in the form data
     for (const key in productData) {
       formData.append(key, productData[key])
     }
 
+    // Make sure price is always set, even if not in the productData object
+    if (!formData.has("price")) {
+      formData.append("price", "0")
+    }
+
     try {
       if (editingProduct) {
-        await axios.put(`https://hostdreambackend.onrender.com/api/products/${editingProduct._id}`, formData, {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+        await axios.put(https://dreamhousebackend-vvxx.onrender.com/api/products/${editingProduct._id}, formData, {
+          headers: { Authorization: Bearer ${token}, "Content-Type": "multipart/form-data" },
         })
         alert("✅ Product updated successfully!")
       } else {
-        await axios.post("https://hostdreambackend.onrender.com/api/products", formData, {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+        await axios.post("https://dreamhousebackend-vvxx.onrender.com/api/products", formData, {
+          headers: { Authorization: Bearer ${token}, "Content-Type": "multipart/form-data" },
         })
         alert("✅ Product added successfully!")
       }
@@ -154,21 +177,27 @@ const AdminDashboard = () => {
         subCategory: "",
         description: "",
         image: null,
+        price: "0", // Keep default price in reset state
       })
       setEditingProduct(null)
       fetchProducts()
       setActiveSection("allProducts")
+
+      // Close sidebar on mobile after form submission
+      if (window.innerWidth <= 768) {
+        setSidebarOpen(false)
+      }
     } catch (error) {
       console.error("❌ Error submitting product:", error)
-      alert(`Error: ${error.response?.data?.message || error.message}`)
+      alert(Error: ${error.response?.data?.message || error.message})
     }
   }
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return
     try {
-      await axios.delete(`https://hostdreambackend.onrender.com/api/products/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      await axios.delete(https://dreamhousebackend-vvxx.onrender.com/api/products/${id}, {
+        headers: { Authorization: Bearer ${token} },
       })
       alert("✅ Product deleted successfully!")
       fetchProducts()
@@ -178,8 +207,18 @@ const AdminDashboard = () => {
   }
 
   const handleEdit = (product) => {
-    setEditingProduct(product)
+    // Make sure price is included when editing
+    const productWithPrice = {
+      ...product,
+      price: product.price || "0",
+    }
+    setEditingProduct(productWithPrice)
     setActiveSection("editProduct")
+
+    // Close sidebar on mobile after clicking edit
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false)
+    }
   }
 
   const handleSignOut = () => {
@@ -196,20 +235,56 @@ const AdminDashboard = () => {
     setSortConfig({ key, direction })
   }
 
+  const handleFeaturedToggle = async (id, currentFeatured) => {
+    try {
+      await axios.patch(
+        https://dreamhousebackend-vvxx.onrender.com/api/products/${id},
+        { featured: !currentFeatured },
+        { headers: { Authorization: Bearer ${token} } },
+      )
+      fetchProducts()
+    } catch (error) {
+      console.error("❌ Error updating featured status:", error)
+      alert("Failed to update featured status. Please try again.")
+    }
+  }
+
+  const handleNavItemClick = (section) => {
+    setActiveSection(section)
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false)
+    }
+  }
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen)
+  }
+
   return (
     <div className="admin-container">
-      <div className="sidebar">
+      <button className="menu-toggle" onClick={toggleSidebar}>
+        {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      <div className={sidebar ${sidebarOpen ? "open" : ""}}>
         <h2>Admin Panel</h2>
         <ul>
-          <li className={activeSection === "dashboard" ? "active" : ""} onClick={() => setActiveSection("dashboard")}>
+          <li className={activeSection === "dashboard" ? "active" : ""} onClick={() => handleNavItemClick("dashboard")}>
             <BarChart2 size={20} />
             <span>Dashboard</span>
           </li>
-          <li className={activeSection === "allProducts" ? "active" : ""} onClick={() => setActiveSection("allProducts")}>
+          <li
+            className={activeSection === "allProducts" ? "active" : ""}
+            onClick={() => handleNavItemClick("allProducts")}
+          >
             <Package size={20} />
             <span>Products</span>
           </li>
-          <li className={activeSection === "addProduct" ? "active" : ""} onClick={() => setActiveSection("addProduct")}>
+          <li
+            className={activeSection === "addProduct" ? "active" : ""}
+            onClick={() => handleNavItemClick("addProduct")}
+          >
             <Plus size={20} />
             <span>Add Product</span>
           </li>
@@ -219,14 +294,16 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      <div className="content">
+      <div className={content ${sidebarOpen ? "shifted" : ""}}>
         <header className="content-header">
           <h1>
             {activeSection === "dashboard"
               ? "Dashboard"
               : activeSection === "allProducts"
-              ? "All Products"
-              : "Add Product"}
+                ? "All Products"
+                : activeSection === "editProduct"
+                  ? "Edit Product"
+                  : "Add Product"}
           </h1>
         </header>
 
@@ -252,6 +329,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
+
             <div className="category-breakdown">
               <h3>Category Breakdown</h3>
               <ul>
@@ -262,13 +340,14 @@ const AdminDashboard = () => {
                     <div className="progress-bar">
                       <div
                         className="progress"
-                        style={{ width: `${((categoryStats[category.id] || 0) / products.length) * 100}%` }}
+                        style={{ width: ${((categoryStats[category.id] || 0) / products.length) * 100}% }}
                       ></div>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
+
             <div className="subcategory-breakdown">
               <h3>Subcategory Breakdown</h3>
               <div className="subcategory-grid">
@@ -289,56 +368,83 @@ const AdminDashboard = () => {
           <div className="add-product">
             <h2>{editingProduct ? "Edit Product" : "Add Product"}</h2>
             <form onSubmit={handleSubmit} className="product-form">
-              <input
-                type="text"
-                name="name"
-                value={editingProduct ? editingProduct.name : newProduct.name}
-                onChange={handleChange}
-                placeholder="Product Name"
-                required
-              />
-              <select
-                name="category"
-                value={editingProduct ? editingProduct.category : newProduct.category}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Category</option>
-                {mainCategories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              {(editingProduct?.category || newProduct.category) && (
+              <div className="form-group">
+                <label htmlFor="name">Product Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={editingProduct ? editingProduct.name : newProduct.name}
+                  onChange={handleChange}
+                  placeholder="Product Name"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="category">Category</label>
                 <select
-                  name="subCategory"
-                  value={editingProduct ? editingProduct.subCategory : newProduct.subCategory}
+                  id="category"
+                  name="category"
+                  value={editingProduct ? editingProduct.category : newProduct.category}
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select Subcategory</option>
-                  {subCategories[editingProduct?.category || newProduct.category]?.map((subCategory) => (
-                    <option key={subCategory} value={subCategory}>
-                      {subCategory}
+                  <option value="">Select Category</option>
+                  {mainCategories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {(editingProduct?.category || newProduct.category) && (
+                <div className="form-group">
+                  <label htmlFor="subCategory">Subcategory</label>
+                  <select
+                    id="subCategory"
+                    name="subCategory"
+                    value={editingProduct ? editingProduct.subCategory : newProduct.subCategory}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Subcategory</option>
+                    {subCategories[editingProduct?.category || newProduct.category]?.map((subCategory) => (
+                      <option key={subCategory} value={subCategory}>
+                        {subCategory}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               )}
-              <textarea
-                name="description"
-                value={editingProduct ? editingProduct.description : newProduct.description}
-                onChange={handleChange}
-                placeholder="Product Description"
-                required
-              />
-              <input type="file" name="image" accept="image/*" onChange={handleImageUpload} />
+
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={editingProduct ? editingProduct.description : newProduct.description}
+                  onChange={handleChange}
+                  placeholder="Product Description"
+                  required
+                  rows="4"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="image">Product Image</label>
+                <input type="file" id="image" name="image" accept="image/*" onChange={handleImageUpload} />
+              </div>
+
+              {/* Show current image if editing */}
               {editingProduct && editingProduct.imageUrl && (
                 <div className="current-image-preview">
                   <p>Current Image:</p>
                   <AdminProductImage imageUrl={editingProduct.imageUrl} alt={editingProduct.name} />
                 </div>
               )}
+
               <button type="submit" className="submit-btn">
                 {editingProduct ? "Update Product" : "Add Product"}
               </button>
@@ -358,46 +464,69 @@ const AdminDashboard = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <button className="add-btn" onClick={() => setActiveSection("addProduct")}>
+              <button className="add-btn" onClick={() => handleNavItemClick("addProduct")}>
                 <Plus size={20} /> Add Product
               </button>
             </div>
+
             <div className="table-container">
               <table>
                 <thead>
                   <tr>
-                    <th onClick={() => handleSort("name")}>
-                      Name {sortConfig.key === "name" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                    <th onClick={() => handleSort("name")} className="sortable">
+                      <span>Name</span>
+                      {sortConfig.key === "name" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
-                    <th onClick={() => handleSort("category")}>
-                      Category {sortConfig.key === "category" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                    <th onClick={() => handleSort("category")} className="sortable category-column">
+                      <span>Category</span>
+                      {sortConfig.key === "category" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
-                    <th onClick={() => handleSort("subCategory")}>
-                      Subcategory {sortConfig.key === "subCategory" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                    <th onClick={() => handleSort("subCategory")} className="sortable subcategory-column">
+                      <span>Subcategory</span>
+                      {sortConfig.key === "subCategory" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
-                    <th>Image</th>
-                    <th>Action</th>
+                    <th className="image-column">Image</th>
+                    <th className="action-column">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProducts.map((product) => (
-                    <tr key={product._id}>
-                      <td>{product.name}</td>
-                      <td>{product.category}</td>
-                      <td>{product.subCategory}</td>
-                      <td className="product-image-cell">
-                        <AdminProductImage imageUrl={product.imageUrl} alt={product.name} />
-                      </td>
-                      <td className="action-icons">
-                        <button className="edit-btn" onClick={() => handleEdit(product)}>
-                          <Edit size={18} />
-                        </button>
-                        <button className="delete-btn" onClick={() => handleDelete(product._id)}>
-                          <Trash2 size={18} />
-                        </button>
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product) => (
+                      <tr key={product._id}>
+                        <td data-label="Name">{product.name}</td>
+                        <td data-label="Category" className="category-column">
+                          {product.category}
+                        </td>
+                        <td data-label="Subcategory" className="subcategory-column">
+                          {product.subCategory}
+                        </td>
+                        <td className="product-image-cell">
+                          <AdminProductImage imageUrl={product.imageUrl} alt={product.name} />
+                        </td>
+                        <td className="action-icons">
+                          <button className="edit-btn" onClick={() => handleEdit(product)} aria-label="Edit product">
+                            <Edit size={18} />
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(product._id)}
+                            aria-label="Delete product"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="no-results">
+                        No products found
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
