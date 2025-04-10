@@ -136,7 +136,7 @@ const Inspiration = () => {
             image="https://indigopaints.com/wp-content/uploads/2021/08/shutterstock_712965688.webp"
             roomLabel="Bedroom"
             title="Bedroom Colours"
-            description="Refresh your space with modern, stylish colors."
+            description="Refresh your space with modern, stylish colors and tones."
             onViewGallery={handleViewGallery}
           />
         </div>
