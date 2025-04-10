@@ -3,7 +3,7 @@
 
 const ProductModal = ({ product, closeModal }) => {
   if (!product) {
-    return null // Don't render anything if product is undefined
+    return null // Dont render anything if product is undefined
   }
 
   return (
