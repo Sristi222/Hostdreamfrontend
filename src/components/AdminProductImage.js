@@ -15,14 +15,13 @@ const AdminProductImage = ({ imageUrl, alt }) => {
       return
     }
 
-    // Create a complete URL for the image
+    // ✅ Use backticks for template string
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
       : `https://hostdreambackend.onrender.com${imageUrl}`
 
     setImageSrc(fullImageUrl)
 
-    // Preload the image to check if it exists
     const img = new Image()
     img.src = fullImageUrl
 
@@ -32,7 +31,7 @@ const AdminProductImage = ({ imageUrl, alt }) => {
     }
 
     img.onerror = () => {
-      console.error(`Failed to load image: ${fullImageUrl}`)
+      console.error(`❌ Failed to load image: ${fullImageUrl}`)
       setIsLoading(false)
       setHasError(true)
     }
@@ -54,8 +53,13 @@ const AdminProductImage = ({ imageUrl, alt }) => {
     )
   }
 
-  return <img src={imageSrc || "/placeholder.svg"} alt={alt} className="admin-product-image" />
+  return (
+    <img
+      src={imageSrc || "/placeholder.svg"}
+      alt={alt}
+      className="admin-product-image"
+    />
+  )
 }
 
 export default AdminProductImage
-
