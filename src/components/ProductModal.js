@@ -1,3 +1,6 @@
+
+
+
 const ProductModal = ({ product, closeModal }) => {
   if (!product) {
     return null // Don't render anything if product is undefined
@@ -20,4 +23,3 @@ const ProductModal = ({ product, closeModal }) => {
 }
 
 export default ProductModal
-
