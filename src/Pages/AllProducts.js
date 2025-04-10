@@ -1,4 +1,7 @@
+
 "use client"
+
+import { useRef } from "react"
 
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
@@ -8,7 +11,9 @@ import Footer from "../components/Footer"
 import "../components/ProductSection.css"
 import ProductImage from "../components/ProductImage"
 import { preloadProductImages } from "../utils/imageUtils"
+import { createPortal } from "react-dom"
 
+// Create a separate ProductCard component to use hooks properly
 const ProductCard = ({ product, openModal, onImageLoad, onImageError }) => {
   return (
     <div className="product-card">
@@ -90,22 +95,32 @@ const AllProducts = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [imagesLoaded, setImagesLoaded] = useState({})
+  const [modalRoot, setModalRoot] = useState(null)
+  const modalRef = useRef(null)
 
   const location = useLocation()
+
+  // Find the modal root element after component mounts
+  useEffect(() => {
+    setModalRoot(document.getElementById("modal-root") || document.body)
+  }, [])
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const response = await axios.get("https://hostdreambackend.onrender.com/api/products")
+        const response = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products")
         const productsData = response.data || []
         setProducts(productsData)
 
+        // Initialize image loaded state for each product
         const initialLoadState = {}
         productsData.forEach((product) => {
           initialLoadState[product._id] = false
         })
         setImagesLoaded(initialLoadState)
+
+        // Preload images in the background
         preloadProductImages(productsData)
       } catch (error) {
         console.error("❌ Error fetching products:", error)
@@ -131,6 +146,7 @@ const AllProducts = () => {
 
   const getFilteredProducts = () => {
     let filtered = [...products]
+
     if (searchTerm) {
       filtered = filtered.filter(
         (product) =>
@@ -146,6 +162,7 @@ const AllProducts = () => {
         filtered = filtered.filter((product) => product.subCategory === currentSubCategory)
       }
     }
+
     return filtered
   }
 
@@ -171,47 +188,238 @@ const AllProducts = () => {
   }
 
   const closeModal = () => {
-    setIsModalVisible(false)
-    document.body.style.overflow = "visible"
-    setTimeout(() => {
-      setModalProduct(null)
-    }, 300)
+    if (modalRef.current) {
+      modalRef.current.classList.add("closing")
+
+      setTimeout(() => {
+        setIsModalVisible(false)
+        document.body.style.overflow = "visible"
+
+        setTimeout(() => {
+          if (modalRef.current) {
+            modalRef.current.classList.remove("closing")
+          }
+          setModalProduct(null)
+        }, 50)
+      }, 300)
+    } else {
+      setIsModalVisible(false)
+      document.body.style.overflow = "visible"
+      setTimeout(() => setModalProduct(null), 300)
+    }
   }
 
+  // Handle image load success
   const handleImageLoad = (productId) => {
-    setImagesLoaded((prev) => ({ ...prev, [productId]: true }))
+    setImagesLoaded((prev) => ({
+      ...prev,
+      [productId]: true,
+    }))
   }
 
+  // Handle image load error
   const handleImageError = (productId) => {
-    setImagesLoaded((prev) => ({ ...prev, [productId]: "error" }))
+    setImagesLoaded((prev) => ({
+      ...prev,
+      [productId]: "error",
+    }))
   }
 
   const filteredProducts = getFilteredProducts()
 
+  // Add escape key handler for modal
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
         closeModal()
       }
     }
+
     if (isModalVisible) {
       document.addEventListener("keydown", handleEscape)
     }
+
     return () => {
       document.removeEventListener("keydown", handleEscape)
     }
   }, [isModalVisible])
+
+  // Render modal using portal
+  const renderModal = () => {
+    if (!modalProduct || !isModalVisible || !modalRoot) {
+      return null
+    }
+
+    // Use createPortal to render the modal at the root level
+    return createPortal(
+      <div
+        ref={modalRef}
+        className={`modal ${isModalVisible ? "show" : ""}`}
+        onClick={closeModal}
+        style={{
+          position: "fixed",
+          zIndex: 9999,
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: 1,
+          visibility: "visible",
+        }}
+      >
+        <div
+          className="modal-content"
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            backgroundColor: "#ffffff",
+            padding: "28px",
+            borderRadius: "12px",
+            width: "380px",
+            maxWidth: "90%",
+            maxHeight: "85vh",
+            overflow: "auto",
+            opacity: 1,
+            transform: "scale(1)",
+            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+            position: "relative",
+          }}
+        >
+          <span
+            className="close"
+            onClick={closeModal}
+            style={{
+              position: "absolute",
+              right: "12px",
+              top: "12px",
+              fontSize: "22px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              width: "32px",
+              height: "32px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "white",
+              borderRadius: "50%",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              zIndex: 1,
+            }}
+          >
+            &times;
+          </span>
+
+          {/* Image container using the improved ProductImage component */}
+          <div
+            style={{
+              width: "100%",
+              height: "220px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <ProductImage
+              product={modalProduct}
+              alt={modalProduct.name}
+              className="modal-image"
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
+          </div>
+
+          <h2
+            className="modal-product-title"
+            style={{
+              fontSize: "1.4rem",
+              marginBottom: "14px",
+              fontWeight: "600",
+              color: "#111",
+              lineHeight: "1.2",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {modalProduct.name || "Product"}
+          </h2>
+
+          <p
+            className="modal-product-description"
+            style={{
+              marginBottom: "18px",
+              lineHeight: "1.5",
+              color: "#555",
+              fontSize: "1rem",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {modalProduct.description || "No description available"}
+          </p>
+
+          {modalProduct.sizes && modalProduct.sizes.length > 0 && (
+            <div
+              className="modal-product-sizes"
+              style={{
+                marginTop: "16px",
+                fontSize: "0.95rem",
+                color: "#333",
+                lineHeight: "1.5",
+                padding: "12px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                Available sizes:{" "}
+                {Array.isArray(modalProduct.sizes) ? modalProduct.sizes.join(", ") : modalProduct.sizes}
+                {modalProduct.sizeUnit ? ` ${modalProduct.sizeUnit}` : ""}
+              </p>
+            </div>
+          )}
+
+          {modalProduct.details && (
+            <div
+              className="modal-product-details"
+              style={{
+                marginTop: "16px",
+                fontSize: "0.95rem",
+                color: "#333",
+                lineHeight: "1.5",
+                padding: "12px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              {modalProduct.details}
+            </div>
+          )}
+        </div>
+      </div>,
+      modalRoot,
+    )
+  }
 
   return (
     <div className="all-products-page">
       <Navbar />
       <div className="container">
         <h1 className="section">All Products</h1>
+
         {searchTerm && (
           <p className="search-results-text">
             Showing results for: <strong>{searchTerm}</strong>
           </p>
         )}
+
         <div className="filter-options main-filter">
           {mainCategories.map((category) => (
             <button
@@ -223,6 +431,7 @@ const AllProducts = () => {
             </button>
           ))}
         </div>
+
         {currentMainCategory !== "all" && subCategories[currentMainCategory] && (
           <div className="filter-options sub-filter">
             <div className="sub-categories">
@@ -238,6 +447,7 @@ const AllProducts = () => {
             </div>
           </div>
         )}
+
         {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -262,6 +472,7 @@ const AllProducts = () => {
             )}
           </div>
         )}
+
         <div className="view-all-container">
           <a href="/" className="back-btn">
             Back to Home
@@ -269,26 +480,9 @@ const AllProducts = () => {
         </div>
       </div>
 
-      {modalProduct && (
-        <div className={`modal ${isModalVisible ? "show" : ""}`} onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className="close" onClick={closeModal}>
-              &times;
-            </span>
-            <ProductImage product={modalProduct} alt={modalProduct.name} className="modal-image" />
-            <h2 className="modal-product-title">{modalProduct.name}</h2>
-            <p className="modal-product-description">{modalProduct.description}</p>
-            {modalProduct.sizes && modalProduct.sizes.length > 0 && (
-              <div className="modal-product-sizes">
-                <p>
-                  Available sizes: {modalProduct.sizes.join(", ")} {modalProduct.sizeUnit}
-                </p>
-              </div>
-            )}
-            {modalProduct.details && <div className="modal-product-details">{modalProduct.details}</div>}
-          </div>
-        </div>
-      )}
+      {/* Render modal using portal */}
+      {renderModal()}
+
       <Footer />
     </div>
   )
