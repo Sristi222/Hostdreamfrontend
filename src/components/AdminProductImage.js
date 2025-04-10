@@ -15,7 +15,7 @@ const AdminProductImage = ({ imageUrl, alt }) => {
       return
     }
 
-    // ✅ Use backticks for template string
+    // Use backticks for template string
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
       : `https://hostdreambackend.onrender.com${imageUrl}`
