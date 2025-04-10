@@ -1,10 +1,9 @@
-
 "use client"
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users } from "lucide-react"
+import { Edit, Trash2, Plus, Search, ChevronUp, ChevronDown, BarChart2, Package, Users, Menu, X } from 'lucide-react'
 import "./AdminDashboard.css"
 import AdminProductImage from "./AdminProductImage"
 
@@ -12,8 +11,8 @@ const mainCategories = [
   { id: "exterior", name: "Exterior" },
   { id: "interior", name: "Interior" },
   { id: "distemper", name: "Distemper" },
-  { id: "wood-polish", name: "Wood Polish" },
-  { id: "pu-polish", name: "PU Polish" },
+  { id: "woodpolish", name: "Wood Polish" },
+  { id: "pupolish", name: "PU Polish" },
   { id: "enamel", name: "Enamel" },
   { id: "primer", name: "Primer" },
   { id: "waterproofing", name: "Waterproofing" },
@@ -32,7 +31,8 @@ const subCategories = {
     "Silicon",
   ],
   distemper: ["Tractor Distemper", "Uno Distemper"],
-  "wood-polish": ["Chapra", "Sealer", "Lacker", "Melamine"],
+  woodpolish: ["Chapra", "Sealer", "Lacker", "Melamine"],
+  pupolish: ["PU-Polish"],
   enamel: ["Premium Gloss Enamel", "Satin Enamel"],
   primer: ["Oil Primer", "Wood Primer", "Metal Primer"],
   waterproofing: ["Damp Proof", "Hydro Lock", "Damp Shield"],
@@ -54,6 +54,7 @@ const AdminDashboard = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" })
   const [categoryStats, setCategoryStats] = useState({})
   const [subCategoryStats, setSubCategoryStats] = useState({})
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigate = useNavigate()
   const token = localStorage.getItem("token")
@@ -197,15 +198,24 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="admin-container">
-      <div className="sidebar">
+    <div className={`admin-container ${sidebarOpen ? "sidebar-open" : ""}`}>
+      {/* Hamburger toggle */}
+      <button className="hamburger-menu" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Sidebar */}
+      <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
         <h2>Admin Panel</h2>
         <ul>
           <li className={activeSection === "dashboard" ? "active" : ""} onClick={() => setActiveSection("dashboard")}>
             <BarChart2 size={20} />
             <span>Dashboard</span>
           </li>
-          <li className={activeSection === "allProducts" ? "active" : ""} onClick={() => setActiveSection("allProducts")}>
+          <li
+            className={activeSection === "allProducts" ? "active" : ""}
+            onClick={() => setActiveSection("allProducts")}
+          >
             <Package size={20} />
             <span>Products</span>
           </li>
@@ -219,14 +229,15 @@ const AdminDashboard = () => {
         </button>
       </div>
 
+      {/* Content */}
       <div className="content">
         <header className="content-header">
           <h1>
             {activeSection === "dashboard"
               ? "Dashboard"
               : activeSection === "allProducts"
-              ? "All Products"
-              : "Add Product"}
+                ? "All Products"
+                : "Add Product"}
           </h1>
         </header>
 
@@ -367,13 +378,19 @@ const AdminDashboard = () => {
                 <thead>
                   <tr>
                     <th onClick={() => handleSort("name")}>
-                      Name {sortConfig.key === "name" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Name{" "}
+                      {sortConfig.key === "name" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th onClick={() => handleSort("category")}>
-                      Category {sortConfig.key === "category" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Category{" "}
+                      {sortConfig.key === "category" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th onClick={() => handleSort("subCategory")}>
-                      Subcategory {sortConfig.key === "subCategory" && (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
+                      Subcategory{" "}
+                      {sortConfig.key === "subCategory" &&
+                        (sortConfig.direction === "ascending" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
                     </th>
                     <th>Image</th>
                     <th>Action</th>
@@ -382,9 +399,15 @@ const AdminDashboard = () => {
                 <tbody>
                   {filteredProducts.map((product) => (
                     <tr key={product._id}>
-                      <td>{product.name}</td>
-                      <td>{product.category}</td>
-                      <td>{product.subCategory}</td>
+                      <td data-label="Name">
+                        <span>{product.name}</span>
+                      </td>
+                      <td data-label="Category">
+                        <span>{product.category}</span>
+                      </td>
+                      <td data-label="Subcategory">
+                        <span>{product.subCategory}</span>
+                      </td>
                       <td className="product-image-cell">
                         <AdminProductImage imageUrl={product.imageUrl} alt={product.name} />
                       </td>
