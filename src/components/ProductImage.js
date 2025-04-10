@@ -65,7 +65,7 @@ const ProductImage = ({ product, alt, className = "", onLoad, onError }) => {
       setHasError(true)
       setErrorDetails(`Failed to load: ${secureImageUrl}`)
 
-      // Retry up to 3 times
+      // Retry up to 3 timess
       if (retryCount < 3) {
         const timeout = Math.pow(2, retryCount) * 1000
         console.log(`Retrying image load (attempt ${retryCount + 1}) in ${timeout}ms`)
