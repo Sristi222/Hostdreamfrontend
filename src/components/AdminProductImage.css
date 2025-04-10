@@ -1,49 +1,130 @@
+adminproductimage.css
+
+
+/* Admin Product Image Styles */
+.admin-image-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .admin-product-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Changed from cover to contain */
+  transition: transform 0.3s ease;
+}
+
+.admin-product-image:hover {
+  transform: scale(1.1);
+}
+
+/* Loading state */
+.admin-image-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #ff3333;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.retry-text {
+  font-size: 9px;
+  color: #666;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Error state */
+.admin-image-error {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: #f8d7da;
+  color: #721c24;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 4px;
+}
+
+.error-details {
+  font-size: 8px;
+  margin-top: 4px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .admin-image-placeholder {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-image-wrapper {
+    width: 80px;
+    height: 80px;
   }
-  
+
+  .admin-image-placeholder,
   .admin-image-error {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f8f8;
-    border-radius: 4px;
-    border: 1px dashed #ccc;
-    color: #888;
-    font-size: 10px;
-    text-align: center;
+    width: 80px;
+    height: 80px;
   }
-  
+
   .loading-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-top-color: #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width: 30px;
+    height: 30px;
   }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+}
+
+@media (max-width: 480px) {
+  .admin-image-wrapper {
+    width: 100px; /* Increased size for better visibility */
+    height: 100px;
   }
-  
-  
+
+  .admin-image-placeholder,
+  .admin-image-error {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* For the current image preview in edit form */
+.current-image-preview .admin-image-wrapper,
+.current-image-preview .admin-image-placeholder,
+.current-image-preview .admin-image-error {
+  width: 100px;
+  height: 100px;
+}
