@@ -18,7 +18,7 @@ import Inspiration from "./components/Inspiration"
 import Testimonials from "./components/Testimonials"
 import ContactUs from "./components/ContactUs"
 import ProductSection from "./components/ProductSection"
-import ColorPalette from "./Pages/ColorPalette" // Import ColorPalette from Pages directory
+import ColorPalette from "./Pages/ColorPalette" // Import ColorPalette from Pages directories
 import Projects from "./Pages/Projects"
 import "./App.css"
 
