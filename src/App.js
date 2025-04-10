@@ -1,3 +1,6 @@
+
+
+
 "use client"
 
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from "react-router-dom"
@@ -18,7 +21,7 @@ import Inspiration from "./components/Inspiration"
 import Testimonials from "./components/Testimonials"
 import ContactUs from "./components/ContactUs"
 import ProductSection from "./components/ProductSection"
-import ColorPalette from "./Pages/ColorPalette" // Import ColorPalette from Pages directories
+import ColorPalette from "./Pages/ColorPalette" // Import ColorPalette from Pages directory
 import Projects from "./Pages/Projects"
 import "./App.css"
 
@@ -72,6 +75,25 @@ function ScrollToHash() {
 function App() {
   const [user, setUser] = useState(null)
   const [isPreloading, setIsPreloading] = useState(true)
+
+  // Create modal root element on mount
+  useEffect(() => {
+    // Check if modal root already exists
+    if (!document.getElementById("modal-root")) {
+      const modalRoot = document.createElement("div")
+      modalRoot.id = "modal-root"
+      modalRoot.style.position = "relative"
+      modalRoot.style.zIndex = "9999"
+      document.body.appendChild(modalRoot)
+
+      console.log("Modal root created:", modalRoot)
+
+      // Clean up on unmount
+      return () => {
+        document.body.removeChild(modalRoot)
+      }
+    }
+  }, [])
 
   // Handle authentication
   useEffect(() => {
@@ -179,6 +201,7 @@ function App() {
           <Route path="/admin" element={user?.isAdmin ? <AdminDashboard /> : <Navigate to="/auth" />} />
         </Routes>
       </div>
+      {/* We're now creating the modal-root div programmatically in useEffect */}
     </Router>
   )
 }
