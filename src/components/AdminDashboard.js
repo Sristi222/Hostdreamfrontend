@@ -24,7 +24,7 @@ const subCategories = {
     "Royal Health Shield",
     "Royal Blink",
     "Royal Aspira",
-    "Royal Shine",
+    "Royal Shyne",
     "Royal Luxury",
     "Premium Emulsion",
     "Tractor Emulsion",
