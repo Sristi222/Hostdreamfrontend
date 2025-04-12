@@ -104,7 +104,7 @@ const Navbar = () => {
             type="text"
             name="search"
             className="search-input"
-            placeholder="Search colours, textures..."
+            placeholder="Search products..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
