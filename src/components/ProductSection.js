@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef } from "react"
@@ -18,7 +17,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
   const modalRef = useRef(null)
   const [modalRoot, setModalRoot] = useState(null)
 
-  // Find the modal root element after component mounts
   useEffect(() => {
     setModalRoot(document.getElementById("modal-root") || document.body)
   }, [])
@@ -27,9 +25,9 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const response = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products?limit=6")
+        const response = await axios.get("https://dreamhousebackend-vvxx.onrender.com/api/products")
         const productsData = response.data || []
-        setProducts(productsData)
+        setProducts(productsData.slice(0, 6)) // only show 6 products
       } catch (error) {
         console.error("❌ Error fetching products:", error)
         setError("Failed to load products. Please try again later.")
@@ -67,7 +65,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
       e.preventDefault()
       e.stopPropagation()
     }
-    console.log("Opening modal for product:", product)
     setModalProduct(product)
     setIsModalVisible(true)
   }
@@ -94,39 +91,18 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }
   }
 
-  // Track image load status
   const handleImageLoad = (productId) => {
-    setLoadedImages((prev) => ({
-      ...prev,
-      [productId]: true,
-    }))
+    setLoadedImages((prev) => ({ ...prev, [productId]: true }))
   }
 
-  // Track image error status
   const handleImageError = (productId) => {
-    setLoadedImages((prev) => ({
-      ...prev,
-      [productId]: "error",
-    }))
+    setLoadedImages((prev) => ({ ...prev, [productId]: "error" }))
   }
 
-  // Function to determine if a product is a bestseller (for demo)
-  const isBestSeller = (productId) => {
-    // Use product ID to make determination consistent
-    const seed = productId
-      .toString()
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    return seed % 3 === 0 // Roughly 1/3 of products will be bestsellers
-  }
 
-  // Render modal using portal
+
   const renderModal = () => {
-    if (!modalProduct || !isModalVisible || !modalRoot) {
-      return null
-    }
-
-    // Use createPortal to render the modal at the root level
+    if (!modalProduct || !isModalVisible || !modalRoot) return null
     return createPortal(
       <div
         ref={modalRef}
@@ -143,24 +119,18 @@ const ProductSection = ({ mainCategories, subCategories }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          opacity: 1,
-          visibility: "visible",
         }}
       >
         <div
           className="modal-content"
           onClick={(e) => e.stopPropagation()}
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: "#fff",
             padding: "28px",
             borderRadius: "12px",
             width: "380px",
-            maxWidth: "90%",
             maxHeight: "85vh",
             overflow: "auto",
-            opacity: 1,
-            transform: "scale(1)",
-            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
             position: "relative",
           }}
         >
@@ -187,18 +157,7 @@ const ProductSection = ({ mainCategories, subCategories }) => {
           >
             &times;
           </span>
-
-          {/* Image container using the improved ProductImage component */}
-          <div
-            style={{
-              width: "100%",
-              height: "220px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "20px",
-            }}
-          >
+          <div style={{ height: "220px", display: "flex", justifyContent: "center", marginBottom: "20px" }}>
             <ProductImage
               product={modalProduct}
               alt={modalProduct.name}
@@ -207,83 +166,11 @@ const ProductSection = ({ mainCategories, subCategories }) => {
               onError={handleImageError}
             />
           </div>
-
-          <h2
-            style={{
-              fontSize: "1.4rem",
-              marginBottom: "14px",
-              fontWeight: "600",
-              color: "#111",
-              lineHeight: "1.2",
-              textAlign: "center",
-              width: "100%",
-            }}
-          >
-            {modalProduct.name || "Product"}
-          </h2>
-
-          <p
-            style={{
-              marginBottom: "18px",
-              lineHeight: "1.5",
-              color: "#555",
-              fontSize: "1rem",
-              textAlign: "center",
-              width: "100%",
-            }}
-          >
-            {modalProduct.description || "No description available"}
-          </p>
-
-          {modalProduct.sizes && modalProduct.sizes.length > 0 && (
-            <div
-              style={{
-                marginTop: "16px",
-                fontSize: "0.95rem",
-                color: "#333",
-                lineHeight: "1.5",
-                padding: "12px",
-                backgroundColor: "#f8f8f8",
-                borderRadius: "8px",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              <p style={{ margin: 0 }}>
-                Available sizes:{" "}
-                {Array.isArray(modalProduct.sizes) ? modalProduct.sizes.join(", ") : modalProduct.sizes}
-                {modalProduct.sizeUnit ? ` ${modalProduct.sizeUnit}` : ""}
-              </p>
-            </div>
-          )}
+          <h2 style={{ fontSize: "1.4rem", textAlign: "center" }}>{modalProduct.name || "Product"}</h2>
+          <p style={{ textAlign: "center", color: "#555" }}>{modalProduct.description || "No description available"}</p>
         </div>
       </div>,
-      modalRoot,
-    )
-  }
-
-  if (loading) {
-    return (
-      <section className="products">
-        <div className="container">
-          <h2 className="section-title">Our Products</h2>
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <p>Loading products...</p>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="products">
-        <div className="container">
-          <h2 className="section-title">Our Products</h2>
-          <p className="error-message">{error}</p>
-        </div>
-      </section>
+      modalRoot
     )
   }
 
@@ -293,48 +180,37 @@ const ProductSection = ({ mainCategories, subCategories }) => {
         <div className="container">
           <h2 className="section-title">Our Products</h2>
 
-          <div className="products-grid">
-            {products.map((product) => (
-              <div key={product._id} className="product-card">
-                {isBestSeller(product._id) && <div className="best-seller">BEST SELLER</div>}
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading products...</p>
+            </div>
+          ) : error ? (
+            <p className="error-message">{error}</p>
+          ) : (
+            <div className="products-grid">
+              {products.map((product) => (
+                <div key={product._id} className="product-card">
 
-                <div className="product-image-container">
-                  <ProductImage
-                    product={product}
-                    alt={product.name}
-                    onLoad={handleImageLoad}
-                    onError={handleImageError}
-                  />
-
-                  <button className="quick-view-btn" onClick={(e) => openModal(product, e)}>
-                    Quick View
-                  </button>
-                </div>
-
-                <div className="product-content">
-                  <div className="product-availability">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M20 7h-9.8C9.5 7 9 7.5 9 8.2v.6c0 .7.5 1.2 1.2 1.2H20c.6 0 1-.4 1-1s-.4-1-1-1z"></path>
-                      <path d="M20 14h-9.8c-.7 0-1.2.5-1.2 1.2v.6c0 .7.5 1.2 1.2 1.2H20c.6 0 1-.4 1-1s-.4-1-1-1z"></path>
-                      <path d="M12 2v20"></path>
-                      <path d="M4 12h8"></path>
-                    </svg>
-                    <span>In Stock</span>
+                  <div className="product-image-container">
+                    <ProductImage
+                      product={product}
+                      alt={product.name}
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                    />
+                    <button className="quick-view-btn" onClick={(e) => openModal(product, e)}>
+                      Quick View
+                    </button>
                   </div>
-
-                  <h3 className="product-title">{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
+                  <div className="product-content">
+                    <h3 className="product-title">{product.name}</h3>
+                    <p className="product-description">{product.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="view-all-container">
             <Link to="/products" className="view-all-btn">
@@ -344,7 +220,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
         </div>
       </section>
 
-      {/* Render modal using portal */}
       {renderModal()}
     </>
   )
