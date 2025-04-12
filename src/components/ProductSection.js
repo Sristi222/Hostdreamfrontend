@@ -109,6 +109,7 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }))
   }
 
+  
 
   // Render modal using portal
   const renderModal = () => {
@@ -285,6 +286,8 @@ const ProductSection = ({ mainCategories, subCategories }) => {
 
           <div className="products-grid">
             {products.slice(0, 6).map((product) => (
+              <div key={product._id} className="product-card">
+                
 
                 <div className="product-image-container">
                   <ProductImage
