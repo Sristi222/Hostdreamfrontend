@@ -83,7 +83,7 @@ const Footer = () => {
                   <a href="/gallery">Gallery</a>
                 </li>
                 <li>
-                  <a href="/color-palette">Color Palette</a>
+                  <a href="/color-palette">Colour Palette</a>
                 </li>
                 <li>
                   <a href="/#contact" onClick={(e) => handleLinkClick(e, "contact")}>
@@ -128,7 +128,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>
           <Link to="/" className="admin-link" onClick={handleFooterClick}>
-            © {new Date().getFullYear()} Dream House Color World. All Rights Reserved
+            © {new Date().getFullYear()} Dream House Colour World. All Rights Reserved
           </Link>
         </p>
       </div>
