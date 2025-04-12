@@ -22,7 +22,7 @@ const subCategories = {
   exterior: ["Water Puffing", "Ultima Protect Shine", "Apex Ultima", "Apex", "ACE", "Silicon"],
   interior: [
     "Royal Health Shield",
-    "Royal Blink",
+    "Royal Bling",
     "Royal Aspira",
     "Royal Shyne",
     "Royal Luxury",
