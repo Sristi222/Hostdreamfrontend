@@ -109,15 +109,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
     }))
   }
 
-  // Function to determine if a product is a bestseller (for demo)
-  const isBestSeller = (productId) => {
-    // Use product ID to make determination consistent
-    const seed = productId
-      .toString()
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    return seed % 3 === 0 // Roughly 1/3 of products will be bestsellers
-  }
 
   // Render modal using portal
   const renderModal = () => {
@@ -294,8 +285,6 @@ const ProductSection = ({ mainCategories, subCategories }) => {
 
           <div className="products-grid">
             {products.slice(0, 6).map((product) => (
-              <div key={product._id} className="product-card">
-                {isBestSeller(product._id) && <div className="best-seller">BEST SELLER</div>}
 
                 <div className="product-image-container">
                   <ProductImage
