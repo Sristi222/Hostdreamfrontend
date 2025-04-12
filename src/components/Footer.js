@@ -128,7 +128,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>
           <Link to="/" className="admin-link" onClick={handleFooterClick}>
-            © {new Date().getFullYear()} Dream House Colour World. All Rights Reserved
+            © {new Date().getFullYear()} Dream House Colour World. All Rights Reserved | Designed By Zenkai Studio
           </Link>
         </p>
       </div>
